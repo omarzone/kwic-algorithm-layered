@@ -13,6 +13,8 @@ public class ReadFile {
   ArrayList<String> phraseWithoutEmptyWords = new ArrayList<String>();
   ArrayList<ArrayList<String>> phraseCombinationArray = new ArrayList<ArrayList<String>>();
 
+  ArrayList<String> phraseCombinations = new ArrayList<String>();
+
   public ReadFile(String[] phrase) throws IOException {
     // Guarda cada linea del archivo en una lista de strings
     List<String> content = Files.readAllLines(Paths.get("src/main/java/com/kwic/spanish.txt"));
@@ -41,6 +43,7 @@ public class ReadFile {
       }
     }
 
+    // Imprime las palabras de la frase original, sin palabras vacias
     for (String word : phraseWithoutEmptyWords) {
       System.out.println(word);
     }
@@ -51,45 +54,60 @@ public class ReadFile {
 
     printPhraseCombinations();
 
+    System.out.println("------ORDERED COMBINATIONS-----");
+    printOrderedPhraseCombinations();
+
   }
 
   public void combinePhrase() {
 
-    //Creamos una copia del array original para modificarla
-    ArrayList<String> modificablePhraseWords = (ArrayList<String>)phraseWithoutEmptyWords.clone();
-
+    // Creamos una copia del array original para modificarla
+    ArrayList<String> modificablePhraseWords = (ArrayList<String>) phraseWithoutEmptyWords.clone();
 
     for (int i = 0; i < phraseWithoutEmptyWords.size(); i++) {
-      //Antes de realizar el primer intercambio, guardamos la frase en el array de combinaciones
-      if(i==0){
+      // Antes de realizar el primer intercambio, guardamos la frase en el array de
+      // combinaciones
+      if (i == 0) {
         phraseCombinationArray.add(modificablePhraseWords);
       }
-      //Intercambiamos el orden del primer elemento en el array
+      // Intercambiamos el orden del primer elemento en el array
       modificablePhraseWords.add(modificablePhraseWords.get(0));
       modificablePhraseWords.remove(0);
-      //Comparamos si el array modificado es igual al array con las palabrasOriginales
-      if(phraseWithoutEmptyWords.equals(modificablePhraseWords)){
-        System.out.println("Frases identicas");
-        //Si durante la comparacion se encuentran coincidencias, el ciclo se rompe
+      // Comparamos si el array modificado es igual al array con las
+      // palabrasOriginales
+      if (phraseWithoutEmptyWords.equals(modificablePhraseWords)) {
+        // System.out.println("Frases identicas");
+        // Si durante la comparacion se encuentran coincidencias, el ciclo se rompe
         break;
-      }else{
-        //Inserta la combinacion al array de combinaciones
-        phraseCombinationArray.add((ArrayList<String>)modificablePhraseWords.clone());
+      } else {
+        // Inserta la combinacion al array de combinaciones
+        phraseCombinationArray.add((ArrayList<String>) modificablePhraseWords.clone());
       }
     }
 
   }
 
+  // Realiza la impresion de la combinacion de frases
+  public void printPhraseCombinations() {
 
-  //Realiza la impresion de la combinacion de frases
-  public void printPhraseCombinations(){
-    
-    for(ArrayList<String> phraseArray : phraseCombinationArray  ){
-      for(String phraseWord : phraseArray){
+    for (ArrayList<String> phraseArray : phraseCombinationArray) {
+      StringBuilder stringBuilder = new StringBuilder();
+      String finalString = stringBuilder.toString();
+      for (String phraseWord : phraseArray) {
+        stringBuilder.append(phraseWord + " ");
+
         System.out.print(phraseWord + " ");
+
       }
+      phraseCombinations.add(stringBuilder.toString());
       System.out.println(" ");
     }
   }
 
+  public void printOrderedPhraseCombinations() {
+    Collections.sort(phraseCombinations);
+    for (String phraseCombination : phraseCombinations) {
+      System.out.println(phraseCombination);
+    }
+  }
 }

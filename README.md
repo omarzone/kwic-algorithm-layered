@@ -4,4 +4,4 @@
 <img src="Diagrams/UML.png" >
 
 ## Sequence Diagram
-<img src="Diagrams/SequenceDiagram.png" >
+<img src="Diagrams/Sequence.png" >

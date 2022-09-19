@@ -1,31 +1,23 @@
 package com.kwic;
 
 import java.io.IOException;
+import java.util.Scanner;
 
-public class App 
-{
-    public static void main( String[] args ) throws IOException
-    {   
-        
-        String phrase = "La casa AzUL es muy GRANDE";
+import com.kwic.BusinessLogic.Kwic;
+import com.kwic.Data.File;
+
+public class App {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escribe una frase:");
+        String phrase = sc.nextLine();
         System.out.println("Frase inicial: " + phrase);
-
-        System.out.println("---------Convertir a minisculas---------");
-        System.out.println(converToLowerCase(phrase));
-
-        String phraseLowerCase = converToLowerCase(phrase);
-
-        String[] phraseSplited = phraseLowerCase.split(" ");
-
-        System.out.print("-------Eliminar palabras-vacias---------");
-        
-        System.out.println("");
-        ReadFile file = new ReadFile(phraseSplited);
-        
+        File file = new File();
+        Kwic kwic = new Kwic(phrase, file.getStopWords());
+        kwic.process();
+        System.out.println("Combinaciones: ");
+        kwic.printOrderedPhraseCombinations();
+        sc.close();
     }
 
-
-    static String converToLowerCase(String text){
-        return text.toLowerCase();
-    }
 }
